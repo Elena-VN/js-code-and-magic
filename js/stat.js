@@ -1,3 +1,5 @@
+'use strict';
+
 const CLOUD_X = 100;
 const CLOUD_Y = 10;
 
@@ -31,17 +33,17 @@ const PLAYER_COLOR = 'rgba(255, 0, 0, 1)';
  * @param {String} color
  */
 const createCloud = function (ctx, x, y, color) {
-    ctx.fillStyle = color;
-    ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
-  };
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
+};
 
 /**
  * @param {Number} valueTime
  * @param {Number} maxTime
  */
 const calculateHeight = function (valueTime, maxTime) {
-    return Math.round(BAR_HEIGHT * valueTime / maxTime);
-  };
+  return Math.round(BAR_HEIGHT * valueTime / maxTime);
+};
 
 /**
  * @param {CanvasRenderingContext2D} ctx
@@ -51,16 +53,16 @@ const calculateHeight = function (valueTime, maxTime) {
  * @param {String} color
  */
 const drawBar = function (ctx, x, y, width, color) {
-    ctx.fillStyle = color;
-    ctx.fillRect(x, y, BAR_WIDTH, width);
-  };
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, BAR_WIDTH, width);
+};
 
 /**
  * @param {Number} min
  * @param {Number} max
  */
 const getRandomColor = function (min, max) {
-    const rand = (Math.random() * (max + min) - min) * 100;
+  const rand = (Math.random() * (max + min) - min) * 100;
   return Math.round(rand);
 };
 
@@ -71,11 +73,11 @@ const getRandomColor = function (min, max) {
  * @param {Number} y
  */
 const drawName = function (ctx, name, x, y) {
-    ctx.font = TEXT_FONT;
-    ctx.fillStyle = TEXT_COLOR;
-    ctx.textBaseline = TEXT_BASELINE;
-    ctx.fillText(name, x, y);
-  };
+  ctx.font = TEXT_FONT;
+  ctx.fillStyle = TEXT_COLOR;
+  ctx.textBaseline = TEXT_BASELINE;
+  ctx.fillText(name, x, y);
+};
 
 window.renderStatistics = function (ctx, names, times) {
   createCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, CLOUD_COLOR_SHADOW);
@@ -91,17 +93,17 @@ window.renderStatistics = function (ctx, names, times) {
   const maxTime = Math.round(Math.max.apply(null, times));
 
   for (let i = 0; i < times.length; i++) {
-    let heightsBar = calculateHeight(times[i], maxTime),
-        positionX = BAR_GAP_X;
+    const heightsBar = calculateHeight(times[i], maxTime);
+    let positionX = BAR_GAP_X;
 
     if (i < times.length) {
       positionX = BAR_WIDTH + BAR_GAP_X * i;
     }
 
-    let otherPlayersColor = 'hsl(240, ' + getRandomColor(0, 1) + '%, ' + getRandomColor(0.1, 1) + '%)',
-        colorsBAR = names[i] === NAME_PLAYER ? PLAYER_COLOR : otherPlayersColor;
+    const otherPlayersColor = 'hsl(240, ' + getRandomColor(0, 1) + '%, ' + getRandomColor(0.1, 1) + '%)';
+    const colorsBar = names[i] === NAME_PLAYER ? PLAYER_COLOR : otherPlayersColor;
 
-    drawBar(ctx, CLOUD_X + positionX + BAR_GAP, BAR_GAP_Y - heightsBar, heightsBar, colorsBAR);
+    drawBar(ctx, CLOUD_X + positionX + BAR_GAP, BAR_GAP_Y - heightsBar, heightsBar, colorsBar);
     drawName(ctx, names[i], CLOUD_X + positionX + BAR_GAP, BAR_GAP_Y + GAP);
   }
 };
